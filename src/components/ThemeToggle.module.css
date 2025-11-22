@@ -1,0 +1,44 @@
+.toggle {
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  padding: 0.5rem;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  width: 36px;
+  height: 36px;
+}
+
+/* Dark theme - make it more visible with better contrast */
+[data-theme='dark'] .toggle {
+  background: #374151;
+  border: 1px solid #6b7280;
+}
+
+.toggle:hover {
+  background: var(--hover-bg);
+  border-color: #3b82f6;
+}
+
+[data-theme='dark'] .toggle:hover {
+  background: #4b5563;
+  border-color: #60a5fa;
+}
+
+.toggle:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--focus-ring);
+}
+
+.toggle:active {
+  transform: scale(0.95);
+}
+
+/* Ensure icon is visible in dark theme */
+[data-theme='dark'] .toggle svg {
+  filter: brightness(1.2);
+}

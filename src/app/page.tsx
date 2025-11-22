@@ -1,9 +1,22 @@
+import Header from '@/components/Header';
+import Hero from '@/components/Hero';
+import Stats from '@/components/Stats';
+import Features from '@/components/Features';
+import CTA from '@/components/CTA';
+import Footer from '@/components/Footer';
+import styles from './page.module.css';
+
 export default function Home() {
   return (
-    <div>
+    <div className={styles.page}>
+      <Header />
       <main>
-        Hello World!        
+        <Hero />
+        <Stats />
+        <Features />
+        <CTA />
       </main>
+      <Footer />
     </div>
   );
 }
