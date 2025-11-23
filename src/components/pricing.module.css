@@ -199,7 +199,7 @@
 
 /* Light Mode Stronger Border */
 :root .ctaGhost {
-  border: 1px solid #00000033; /* light subtle black */
+  border: 1px solid #00000033;
 }
 
 /* Dark Mode Stronger White Outline */
