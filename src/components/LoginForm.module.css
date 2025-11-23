@@ -1,12 +1,32 @@
 .formContainer {
-  background: var(--bg-primary);
+  background: var(--bg-card);              /* was var(--bg-primary) */
   padding: 2.5rem;
   border-radius: 12px;
-  box-shadow: 0 4px 6px var(--shadow);
+  box-shadow: 0 8px 24px var(--shadow);    /* use theme shadow */
   width: 100%;
   border: 1px solid var(--border-color);
-  transition: background-color 0.3s ease, border-color 0.3s ease;
+  transition:
+    background-color 0.3s ease,
+    border-color 0.3s ease,
+    box-shadow 0.3s ease,
+    transform 0.2s ease;
 }
+
+/* subtle lift on hover for desktop */
+@media (hover: hover) {
+  .formContainer:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 40px var(--shadow);
+  }
+}
+
+/* slightly more “glass” in dark mode */
+[data-theme='dark'] .formContainer {
+  backdrop-filter: blur(10px);
+  background: rgba(15, 23, 42, 0.92);     /* or just var(--bg-card) if you prefer */
+}
+
+/* ---------------- header ---------------- */
 
 .header {
   text-align: center;
@@ -27,16 +47,7 @@
   transition: color 0.3s ease;
 }
 
-.errorMessage {
-  background-color: #fee2e2;
-  border: 1px solid #fca5a5;
-  color: #dc2626;
-  padding: 0.75rem 1rem;
-  border-radius: 8px;
-  font-size: 0.9rem;
-  margin-bottom: 1rem;
-  transition: all 0.3s ease;
-}
+/* ---------------- form ---------------- */
 
 .form {
   display: flex;
@@ -63,8 +74,14 @@
   border-radius: 8px;
   font-size: 1rem;
   color: var(--text-primary);
-  transition: all 0.2s;
+  transition: all 0.2s ease;
   background-color: var(--bg-primary);
+}
+
+/* darker input in dark mode so it stands out from the card */
+[data-theme='dark'] .input {
+  background-color: #020617;
+  border-color: #1e293b;
 }
 
 .input:focus {
@@ -76,6 +93,8 @@
 .input::placeholder {
   color: var(--text-tertiary);
 }
+
+/* ---------------- options row ---------------- */
 
 .options {
   display: flex;
@@ -111,6 +130,8 @@
   color: #2563eb;
 }
 
+/* ---------------- button + footer ---------------- */
+
 .submitButton {
   background: linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%);
   color: white;
@@ -120,12 +141,15 @@
   font-size: 1rem;
   font-weight: 500;
   cursor: pointer;
-  transition: opacity 0.2s;
+  transition: opacity 0.2s, transform 0.15s ease, box-shadow 0.15s ease;
   margin-top: 0.5rem;
+  /* box-shadow: 0 12px 30px rgba(37, 99, 235, 0.4); */
 }
 
-.submitButton:hover:not(:disabled) {
-  opacity: 0.9;
+.submitButton:hover {
+  opacity: 0.95;
+  /* transform: translateY(-1px);
+  box-shadow: 0 16px 40px rgba(37, 99, 235, 0.55); */
 }
 
 .submitButton:disabled {
@@ -155,11 +179,13 @@
   color: #2563eb;
 }
 
+/* ---------------- responsive ---------------- */
+
 @media (max-width: 640px) {
   .formContainer {
     padding: 2rem 1.5rem;
   }
-  
+
   .title {
     font-size: 1.75rem;
   }
