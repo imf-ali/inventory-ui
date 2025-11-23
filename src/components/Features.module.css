@@ -32,6 +32,7 @@
 }
 
 .mainFeaturesGrid {
+  color: var(--text-secondary);
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 2rem;
@@ -48,15 +49,18 @@
   background: var(--bg-card);
   padding: 2rem;
   border-radius: 12px;
-  box-shadow: 0 1px 3px var(--shadow);
-  transition: transform 0.2s, box-shadow 0.2s, background-color 0.3s ease;
   border: 1px solid var(--border-color);
+  backdrop-filter: blur(6px);
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 18px rgba(0,0,0,0.08);
 }
 
 .featureCard:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 6px var(--shadow);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+  border-color: var(--border-hover);
 }
+
 
 .iconContainer {
   margin-bottom: 1.5rem;
