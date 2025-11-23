@@ -1,44 +1,31 @@
 .toggle {
-  background: var(--bg-primary);
-  border: 1px solid var(--border-color);
-  color: var(--text-primary);
-  padding: 0.5rem;
-  border-radius: 6px;
+  background: transparent;        /* no box */
+  border: none;                   /* no border */
+  color: var(--text-primary);     /* icon color based on theme */
+  padding: 0;                     /* no extra padding */
   cursor: pointer;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.2s;
-  width: 36px;
-  height: 36px;
+  transition: transform 0.2s ease, opacity 0.2s ease;
 }
 
-/* Dark theme - make it more visible with better contrast */
-[data-theme='dark'] .toggle {
-  background: #374151;
-  border: 1px solid #6b7280;
+/* SVG size */
+.icon {
+  width: 20px;
+  height: 20px;
 }
 
+/* Hover / active feedback */
 .toggle:hover {
-  background: var(--hover-bg);
-  border-color: #3b82f6;
-}
-
-[data-theme='dark'] .toggle:hover {
-  background: #4b5563;
-  border-color: #60a5fa;
-}
-
-.toggle:focus {
-  outline: none;
-  box-shadow: 0 0 0 3px var(--focus-ring);
+  transform: scale(1.1);
+  opacity: 0.9;
 }
 
 .toggle:active {
   transform: scale(0.95);
 }
 
-/* Ensure icon is visible in dark theme */
-[data-theme='dark'] .toggle svg {
-  filter: brightness(1.2);
+.toggle:focus {
+  outline: none;
 }

@@ -1,23 +1,26 @@
+
 .header {
-  background-color: var(--bg-secondary);
-  padding: 1rem 0;
+  background: var(--bg-header);
+  padding: 0.75rem 0;
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   z-index: 100;
-  border-bottom: 1px solid var(--border-color);
+  border-bottom: none;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 2rem;
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
   align-items: center;
 }
+
 
 .logo {
   display: flex;
@@ -28,88 +31,119 @@
 }
 
 .logoIcon {
-  width: 32px;
-  height: 32px;
-  background: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%);
-  border-radius: 6px;
+  width: 34px;
+  height: 34px;
+  background: linear-gradient(135deg, #2563eb 0%, #3b82f6 40%, #06b6d4 100%);
+  border-radius: 12px;
 }
 
 .logoText {
   font-size: 1.25rem;
   font-weight: 600;
-  color: var(--text-primary);
-  transition: color 0.3s ease;
+  color: #f9fafb;
+  color: var(--text-primary); 
+  letter-spacing: 0.02em;
 }
 
 .nav {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  justify-content: center;
+  font-weight: 600;
+  gap: 2rem;
+}
+
+.navLinks {
+  display: flex;
+  align-items: center;
+  gap: 2.5rem;
 }
 
 .navLink {
-  color: var(--text-primary);
+  color: var(--link); 
   text-decoration: none;
   font-size: 0.95rem;
-  transition: color 0.2s;
+  transition: color 0.25s ease, font-weight 0.25s ease;
 }
 
 .navLink:hover {
-  color: #3b82f6;
+  color: var(--link-hover);
+  font-weight: 600;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  justify-self: end; /* push to right of its grid column */
+}
+
+
+/* Assuming ThemeToggle renders just an icon; give it a little hit area */
+.actions :global(button),
+.actions :global(svg) {
+  cursor: pointer;
 }
 
 .signInBtn {
-  background: var(--bg-primary);
-  border: 1px solid var(--border-color);
-  color: var(--text-primary);
-  padding: 0.5rem 1.25rem;
-  border-radius: 6px;
+  background: transparent;
+  border: none;
+  padding: 0;
   font-size: 0.95rem;
+  font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s;
   text-decoration: none;
-  display: inline-block;
+  transition: opacity 0.2s ease;
 }
 
 .signInBtn:hover {
-  border-color: var(--border-hover);
-  background-color: var(--hover-bg);
+  color: var(--link-hover);
+  opacity: 0.8;
 }
 
 .getStartedBtn {
-  background: linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%);
-  color: white;
+  background: var(--btn-primary);
+  color: #ffffff;
   border: none;
-  padding: 0.5rem 1.25rem;
-  border-radius: 6px;
+  padding: 0.5rem 1.6rem;
+  border-radius: 999px;
   font-size: 0.95rem;
-  font-weight: 500;
+  font-weight: 600;
   cursor: pointer;
-  transition: opacity 0.2s;
   text-decoration: none;
-  display: inline-block;
+  box-shadow: 0 10px 20px rgba(37, 99, 235, 0.45);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
 }
 
 .getStartedBtn:hover {
-  opacity: 0.9;
+  transform: translateY(-1px);
+  color: var(--link-hover);
+  box-shadow: 0 14px 30px rgba(37, 99, 235, 0.6);
+  opacity: 0.95;
 }
 
 @media (max-width: 768px) {
   .container {
     padding: 0 1rem;
+    gap: 1rem;
   }
-  
+
   .nav {
-    gap: 0.75rem;
+    justify-content: flex-end;
+    gap: 1rem;
   }
-  
-  .navLink {
+
+  .navLinks {
     display: none;
   }
-  
-  .signInBtn,
+
+  .signInBtn {
+    display: none;
+  }
+
   .getStartedBtn {
-    padding: 0.5rem 1rem;
+    padding: 0.45rem 1.2rem;
     font-size: 0.85rem;
+    box-shadow: 0 6px 14px rgba(37, 99, 235, 0.5);
   }
 }
