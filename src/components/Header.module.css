@@ -7,7 +7,7 @@
   left: 0;
   right: 0;
   z-index: 100;
-  border-bottom: 1px solid rgba(148, 163, 184, 0.25);
+  border-bottom: none;
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   transition: background-color 0.3s ease, border-color 0.3s ease;
@@ -16,7 +16,6 @@
 .container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 2rem;
   display: grid;
   grid-template-columns: auto 1fr auto;
   align-items: center;
@@ -50,7 +49,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: 500;
+  font-weight: 600;
   gap: 2rem;
 }
 
@@ -70,7 +69,7 @@
 
 .navLink:hover {
   color: var(--link-hover);
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .actions {
@@ -93,7 +92,7 @@
   color: #e5e7eb;
   padding: 0;
   font-size: 0.95rem;
-  font-weight: 500;
+  font-weight: 600;
   cursor: pointer;
   text-decoration: none;
   transition: opacity 0.2s ease;
@@ -111,7 +110,7 @@
   padding: 0.5rem 1.6rem;
   border-radius: 999px;
   font-size: 0.95rem;
-  font-weight: 500;
+  font-weight: 600;
   cursor: pointer;
   text-decoration: none;
   box-shadow: 0 10px 20px rgba(37, 99, 235, 0.45);
