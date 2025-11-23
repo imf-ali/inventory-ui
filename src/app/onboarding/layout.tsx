@@ -3,9 +3,8 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/store/useAuthStore';
-import DashboardLayout from '@/components/DashboardLayout';
 
-export default function Layout({ children }: { children: React.ReactNode }) {
+export default function OnboardingLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const { isAuthenticated, isLoading, user, fetchCurrentUser } = useAuthStore();
 
@@ -20,9 +19,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             // If fetch fails, redirect to login
             router.push('/login');
           }
-        } else if (user && !user.shopId) {
-          // User is authenticated but doesn't have a shop, redirect to onboarding
-          router.push('/onboarding');
+        } else if (user?.shopId) {
+          // User already has a shop, redirect to dashboard
+          router.push('/dashboard');
         }
       }
     };
@@ -47,11 +46,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     return null; // Will redirect
   }
 
-  // If user doesn't have shopId, redirect to onboarding
-  if (user && !user.shopId) {
+  // If user already has shopId, redirect to dashboard
+  if (user?.shopId) {
     return null; // Will redirect
   }
 
-  return <DashboardLayout>{children}</DashboardLayout>;
+  return <>{children}</>;
 }
 

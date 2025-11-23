@@ -1,8 +1,9 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
+import { useAuthStore } from '@/store/useAuthStore';
 import styles from './DashboardLayout.module.css';
 import ThemeToggle from './ThemeToggle';
 
@@ -23,7 +24,37 @@ const menuItems = [
 
 export default function DashboardLayout({ children }: DashboardLayoutProps) {
   const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [userMenuOpen, setUserMenuOpen] = useState(false);
   const pathname = usePathname();
+  const router = useRouter();
+  const { user, logout, isLoading } = useAuthStore();
+  const userMenuRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (userMenuRef.current && !userMenuRef.current.contains(event.target as Node)) {
+        setUserMenuOpen(false);
+      }
+    };
+
+    if (userMenuOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [userMenuOpen]);
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+      router.push('/login');
+    } catch (error) {
+      // Even if logout fails, clear local state and redirect
+      router.push('/login');
+    }
+  };
 
   return (
     <div className={styles.dashboard}>
@@ -70,10 +101,66 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
             </h1>
             <div className={styles.headerActions}>
               <ThemeToggle />
-              <button className={styles.userBtn}>
-                <span className={styles.userIcon}>👤</span>
-                <span>User</span>
-              </button>
+              <div ref={userMenuRef} style={{ position: 'relative' }}>
+                <button 
+                  className={styles.userBtn}
+                  onClick={() => setUserMenuOpen(!userMenuOpen)}
+                  disabled={isLoading}
+                >
+                  <span className={styles.userIcon}>👤</span>
+                  <span>{user?.name || user?.email || 'User'}</span>
+                </button>
+                {userMenuOpen && (
+                  <div style={{
+                    position: 'absolute',
+                    right: 0,
+                    top: '100%',
+                    marginTop: '0.5rem',
+                    backgroundColor: 'var(--bg-secondary, #fff)',
+                    border: '1px solid var(--border, #e0e0e0)',
+                    borderRadius: '0.5rem',
+                    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+                    minWidth: '200px',
+                    zIndex: 1000,
+                  }}>
+                    <div style={{ padding: '1rem', borderBottom: '1px solid var(--border, #e0e0e0)' }}>
+                      <div style={{ fontWeight: 'bold', marginBottom: '0.25rem' }}>
+                        {user?.name || 'User'}
+                      </div>
+                      <div style={{ fontSize: '0.875rem', color: 'var(--text-secondary, #666)' }}>
+                        {user?.email}
+                      </div>
+                      <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary, #666)', marginTop: '0.25rem' }}>
+                        Role: {user?.role} | Shop: {user?.shopId || 'N/A'}
+                      </div>
+                    </div>
+                    <button
+                      onClick={handleLogout}
+                      disabled={isLoading}
+                      style={{
+                        width: '100%',
+                        padding: '0.75rem 1rem',
+                        textAlign: 'left',
+                        border: 'none',
+                        background: 'none',
+                        cursor: isLoading ? 'not-allowed' : 'pointer',
+                        color: 'var(--text, #333)',
+                        fontSize: '0.875rem',
+                      }}
+                      onMouseEnter={(e) => {
+                        if (!isLoading) {
+                          e.currentTarget.style.backgroundColor = 'var(--bg-hover, #f5f5f5)';
+                        }
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.backgroundColor = 'transparent';
+                      }}
+                    >
+                      {isLoading ? 'Logging out...' : 'Logout'}
+                    </button>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </header>
