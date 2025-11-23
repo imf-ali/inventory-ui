@@ -1,6 +1,16 @@
 import { apiClient } from './client';
 import { API_ENDPOINTS } from './endpoints';
-import type { ApiResponse, AuthResponse, LoginDto, SignupDto, User } from './types';
+import type {
+  ApiResponse,
+  AuthResponse,
+  LoginDto,
+  SignupDto,
+  AcceptInviteDto,
+  AcceptInviteResponse,
+  LogoutDto,
+  LogoutResponse,
+  User,
+} from './types';
 
 export const authApi = {
   login: async (credentials: LoginDto): Promise<AuthResponse> => {
@@ -8,8 +18,8 @@ export const authApi = {
       API_ENDPOINTS.AUTH.LOGIN,
       credentials
     );
-    if (response.success && response.data.token) {
-      apiClient.setToken(response.data.token);
+    if (response.success && response.data.accessToken) {
+      apiClient.setToken(response.data.accessToken);
     }
     return response.data;
   },
@@ -19,15 +29,27 @@ export const authApi = {
       API_ENDPOINTS.AUTH.SIGNUP,
       data
     );
-    if (response.success && response.data.token) {
-      apiClient.setToken(response.data.token);
+    console.log(response);
+    if (response.success && response.data.accessToken) {
+      apiClient.setToken(response.data.accessToken);
     }
     return response.data;
   },
 
-  logout: async (): Promise<void> => {
+  acceptInvite: async (data: AcceptInviteDto): Promise<AcceptInviteResponse> => {
+    const response = await apiClient.post<ApiResponse<AcceptInviteResponse>>(
+      API_ENDPOINTS.AUTH.ACCEPT_INVITE,
+      data
+    );
+    return response.data;
+  },
+
+  logout: async (): Promise<LogoutResponse> => {
     try {
-      await apiClient.post(API_ENDPOINTS.AUTH.LOGOUT);
+      const response = await apiClient.post<ApiResponse<LogoutResponse>>(
+        API_ENDPOINTS.AUTH.LOGOUT,
+      );
+      return response.data;
     } finally {
       apiClient.setToken(null);
     }
@@ -44,8 +66,8 @@ export const authApi = {
     const response = await apiClient.post<ApiResponse<AuthResponse>>(
       API_ENDPOINTS.AUTH.REFRESH
     );
-    if (response.success && response.data.token) {
-      apiClient.setToken(response.data.token);
+    if (response.success && response.data.accessToken) {
+      apiClient.setToken(response.data.accessToken);
     }
     return response.data;
   },

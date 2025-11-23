@@ -54,11 +54,13 @@ export interface UpdateProductDto extends Partial<CreateProductDto> {}
 
 // Auth types
 export interface User {
-  id: string;
-  email: string;
-  name: string;
+  userId: string;
   role: string;
-  createdAt: string;
+  shopId: string | null;
+  email?: string;
+  name?: string;
+  active?: boolean;
+  createdAt?: string;
 }
 
 export interface LoginDto {
@@ -70,13 +72,35 @@ export interface SignupDto {
   name: string;
   email: string;
   password: string;
-  confirmPassword: string;
+  shopId?: string;
+  role: string;
+}
+
+export interface AcceptInviteDto {
+  inviteToken: string;
+  password: string;
 }
 
 export interface AuthResponse {
+  accessToken: string;
+  refreshToken: string;
   user: User;
-  token: string;
-  refreshToken?: string;
+}
+
+export interface AcceptInviteResponse {
+  userId: string;
+  role: string;
+  shopId: string;
+  active: boolean;
+}
+
+export interface LogoutDto {
+  userId: string;
+  accessToken: string;
+}
+
+export interface LogoutResponse {
+  deviceId: string;
 }
 
 // Order types
@@ -141,5 +165,28 @@ export interface Reminder {
   priority: 'high' | 'medium' | 'low';
   status: 'pending' | 'completed';
   createdAt: string;
+}
+
+// Shop types
+export interface Location {
+  primaryAddress: string;
+  secondaryAddress?: string;
+  state: string;
+  city: string;
+  pin: string;
+  country: string;
+}
+
+export interface RegisterShopDto {
+  name: string;
+  businessId: string;
+  location: Location;
+  contactEmail: string;
+  contactPhone: string;
+}
+
+export interface RegisterShopResponse {
+  shopId: string;
+  status: string;
 }
 

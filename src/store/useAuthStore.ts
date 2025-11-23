@@ -18,7 +18,7 @@ interface AuthState {
 
 export const useAuthStore = create<AuthState>()(
   persist(
-    (set) => ({
+    (set, get) => ({
       user: null,
       token: null,
       isAuthenticated: false,
@@ -31,7 +31,7 @@ export const useAuthStore = create<AuthState>()(
           const response = await authApi.login(credentials);
           set({
             user: response.user,
-            token: response.token,
+            token: response.accessToken,
             isAuthenticated: true,
             isLoading: false,
             error: null,
@@ -52,7 +52,7 @@ export const useAuthStore = create<AuthState>()(
           const response = await authApi.signup(data);
           set({
             user: response.user,
-            token: response.token,
+            token: response.accessToken,
             isAuthenticated: true,
             isLoading: false,
             error: null,

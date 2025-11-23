@@ -1,7 +1,75 @@
+'use client';
+
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { useAuthStore } from '@/store/useAuthStore';
 import styles from './SignupForm.module.css';
 import Link from 'next/link';
 
 export default function SignupForm() {
+  const router = useRouter();
+  const { signup, isAuthenticated, isLoading, error, clearError } = useAuthStore();
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+  });
+  const [localError, setLocalError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      router.push('/dashboard');
+    }
+  }, [isAuthenticated, router]);
+
+  useEffect(() => {
+    return () => {
+      clearError();
+    };
+  }, [clearError]);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLocalError(null);
+    clearError();
+
+    if (!formData.name || !formData.email || !formData.password || !formData.confirmPassword) {
+      setLocalError('Please fill in all required fields');
+      return;
+    }
+
+    if (formData.password !== formData.confirmPassword) {
+      setLocalError('Passwords do not match');
+      return;
+    }
+
+    try {
+      await signup({
+        name: formData.name,
+        email: formData.email,
+        password: formData.password,
+        role: 'CASHIER', // Default role
+      });
+      router.push('/onboarding');
+    } catch (err: any) {
+      setLocalError(err.message || 'Signup failed. Please try again.');
+    }
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+    if (localError || error) {
+      setLocalError(null);
+      clearError();
+    }
+  };
+
+  const displayError = localError || error;
+
   return (
     <div className={styles.formContainer}>
       <div className={styles.header}>
@@ -9,7 +77,13 @@ export default function SignupForm() {
         <p className={styles.subtitle}>Get started with InventoryPro today</p>
       </div>
       
-      <form className={styles.form}>
+      {displayError && (
+        <div className={styles.errorMessage}>
+          {displayError}
+        </div>
+      )}
+      
+      <form className={styles.form} onSubmit={handleSubmit}>
         <div className={styles.formGroup}>
           <label htmlFor="name" className={styles.label}>Full Name</label>
           <input
@@ -18,7 +92,10 @@ export default function SignupForm() {
             name="name"
             className={styles.input}
             placeholder="Enter your full name"
+            value={formData.name}
+            onChange={handleChange}
             required
+            disabled={isLoading}
           />
         </div>
         
@@ -30,7 +107,10 @@ export default function SignupForm() {
             name="email"
             className={styles.input}
             placeholder="Enter your email"
+            value={formData.email}
+            onChange={handleChange}
             required
+            disabled={isLoading}
           />
         </div>
         
@@ -42,7 +122,10 @@ export default function SignupForm() {
             name="password"
             className={styles.input}
             placeholder="Create a password"
+            value={formData.password}
+            onChange={handleChange}
             required
+            disabled={isLoading}
           />
         </div>
         
@@ -54,7 +137,10 @@ export default function SignupForm() {
             name="confirmPassword"
             className={styles.input}
             placeholder="Confirm your password"
+            value={formData.confirmPassword}
+            onChange={handleChange}
             required
+            disabled={isLoading}
           />
         </div>
         
@@ -65,8 +151,12 @@ export default function SignupForm() {
           </label>
         </div>
         
-        <button type="submit" className={styles.submitButton}>
-          Create Account
+        <button 
+          type="submit" 
+          className={styles.submitButton}
+          disabled={isLoading}
+        >
+          {isLoading ? 'Creating Account...' : 'Create Account'}
         </button>
       </form>
       

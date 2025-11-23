@@ -8,6 +8,7 @@ export const API_ENDPOINTS = {
     LOGOUT: '/auth/logout',
     REFRESH: '/auth/refresh',
     ME: '/auth/me',
+    ACCEPT_INVITE: '/auth/accept-invite',
   },
 
   // Product endpoints
@@ -45,6 +46,11 @@ export const API_ENDPOINTS = {
     BASE: '/reminders',
     BY_ID: (id: string) => `/reminders/${id}`,
     BY_TYPE: (type: string) => `/reminders/type/${type}`,
+  },
+
+  // Shop endpoints
+  SHOPS: {
+    REGISTER: '/shops/register',
   },
 } as const;
 
