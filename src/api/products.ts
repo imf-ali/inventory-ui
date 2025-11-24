@@ -55,7 +55,7 @@ export const productsApi = {
   }): Promise<PaginatedResponse<Product>> => {
     const response = await apiClient.get<ApiResponse<PaginatedResponse<Product>>>(
       API_ENDPOINTS.PRODUCTS.SEARCH,
-      { q: query, ...params } as Record<string, string>
+      { q: query, ...params } as unknown as Record<string, string>
     );
     return response.data;
   },
