@@ -42,7 +42,7 @@ class ApiClient {
       (error: AxiosError) => {
         if (error.response) {
           // Server responded with error status
-          const errorData = error.response.data as any;
+          const errorData = error.response.data as { message?: string; errors?: Record<string, string[]> };
           throw {
             message: errorData?.message || error.response.statusText,
             status: error.response.status,

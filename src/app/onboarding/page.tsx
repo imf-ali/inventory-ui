@@ -35,6 +35,20 @@ export default function OnboardingPage() {
   const [currentStep, setCurrentStep] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [formData, setFormData] = useState({
+    name: '',
+    businessId: 'Pharmacy',
+    location: {
+      primaryAddress: '',
+      secondaryAddress: '',
+      state: '',
+      city: '',
+      pin: '',
+      country: 'IND',
+    },
+    contactEmail: user?.email || '',
+    contactPhone: '',
+  });
 
   useEffect(() => {
     // Check if user is authenticated
@@ -52,22 +66,7 @@ export default function OnboardingPage() {
     if (user?.email && !formData.contactEmail) {
       setFormData(prev => ({ ...prev, contactEmail: user.email || '' }));
     }
-  }, [isAuthenticated, user, router]);
-
-  const [formData, setFormData] = useState({
-    name: '',
-    businessId: 'Pharmacy',
-    location: {
-      primaryAddress: '',
-      secondaryAddress: '',
-      state: '',
-      city: '',
-      pin: '',
-      country: 'IND',
-    },
-    contactEmail: user?.email || '',
-    contactPhone: '',
-  });
+  }, [isAuthenticated, user, router, formData.contactEmail]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -194,8 +193,9 @@ export default function OnboardingPage() {
       } else {
         throw new Error('Shop registration failed - invalid response');
       }
-    } catch (err: any) {
-      setError(err.message || 'Failed to register shop. Please try again.');
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'Failed to register shop. Please try again.';
+      setError(errorMessage);
       setIsLoading(false);
     }
   };

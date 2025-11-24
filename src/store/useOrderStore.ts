@@ -51,10 +51,11 @@ export const useOrderStore = create<OrderState>((set) => ({
         },
         isLoading: false,
       });
-    } catch (error: any) {
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Failed to fetch orders';
       set({
         isLoading: false,
-        error: error.message || 'Failed to fetch orders',
+        error: errorMessage,
       });
     }
   },
@@ -67,10 +68,11 @@ export const useOrderStore = create<OrderState>((set) => ({
         selectedOrder: order,
         isLoading: false,
       });
-    } catch (error: any) {
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Failed to fetch order';
       set({
         isLoading: false,
-        error: error.message || 'Failed to fetch order',
+        error: errorMessage,
       });
     }
   },
@@ -84,10 +86,11 @@ export const useOrderStore = create<OrderState>((set) => ({
         isLoading: false,
       }));
       return order;
-    } catch (error: any) {
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Failed to create order';
       set({
         isLoading: false,
-        error: error.message || 'Failed to create order',
+        error: errorMessage,
       });
       throw error;
     }
@@ -105,10 +108,11 @@ export const useOrderStore = create<OrderState>((set) => ({
             : state.selectedOrder,
         isLoading: false,
       }));
-    } catch (error: any) {
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Failed to update order status';
       set({
         isLoading: false,
-        error: error.message || 'Failed to update order status',
+        error: errorMessage,
       });
       throw error;
     }

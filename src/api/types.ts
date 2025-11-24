@@ -50,7 +50,10 @@ export interface CreateProductDto {
   description?: string;
 }
 
-export interface UpdateProductDto extends Partial<CreateProductDto> {}
+export interface UpdateProductDto extends Partial<Omit<CreateProductDto, 'name' | 'sku'>> {
+  name?: string;
+  sku?: string;
+}
 
 // Auth types
 export interface User {

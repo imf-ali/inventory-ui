@@ -35,8 +35,9 @@ export default function LoginForm() {
     try {
       await login(formData);
       router.push('/dashboard');
-    } catch (err: any) {
-      setLocalError(err.message || 'Login failed. Please try again.');
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'Login failed. Please try again.';
+      setLocalError(errorMessage);
     }
   };
 
@@ -116,7 +117,7 @@ export default function LoginForm() {
       
       <div className={styles.footer}>
         <p className={styles.footerText}>
-          Don't have an account?{' '}
+          Don&apos;t have an account?{' '}
           <Link href="/signup" className={styles.link}>Sign up</Link>
         </p>
       </div>
