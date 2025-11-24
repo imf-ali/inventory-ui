@@ -35,6 +35,20 @@ export default function OnboardingPage() {
   const [currentStep, setCurrentStep] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [formData, setFormData] = useState({
+    name: '',
+    businessId: 'Pharmacy',
+    location: {
+      primaryAddress: '',
+      secondaryAddress: '',
+      state: '',
+      city: '',
+      pin: '',
+      country: 'IND',
+    },
+    contactEmail: user?.email || '',
+    contactPhone: '',
+  });
 
   useEffect(() => {
     // Check if user is authenticated
@@ -53,21 +67,6 @@ export default function OnboardingPage() {
       setFormData(prev => ({ ...prev, contactEmail: user.email || '' }));
     }
   }, [isAuthenticated, user, router, formData.contactEmail]);
-
-  const [formData, setFormData] = useState({
-    name: '',
-    businessId: 'Pharmacy',
-    location: {
-      primaryAddress: '',
-      secondaryAddress: '',
-      state: '',
-      city: '',
-      pin: '',
-      country: 'IND',
-    },
-    contactEmail: user?.email || '',
-    contactPhone: '',
-  });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
