@@ -36,10 +36,11 @@ export const useAuthStore = create<AuthState>()(
             isLoading: false,
             error: null,
           });
-        } catch (error: any) {
+        } catch (error) {
+          const errorMessage = error instanceof Error ? error.message : 'Login failed';
           set({
             isLoading: false,
-            error: error.message || 'Login failed',
+            error: errorMessage,
             isAuthenticated: false,
           });
           throw error;
@@ -57,10 +58,11 @@ export const useAuthStore = create<AuthState>()(
             isLoading: false,
             error: null,
           });
-        } catch (error: any) {
+        } catch (error) {
+          const errorMessage = error instanceof Error ? error.message : 'Signup failed';
           set({
             isLoading: false,
-            error: error.message || 'Signup failed',
+            error: errorMessage,
             isAuthenticated: false,
           });
           throw error;
@@ -70,8 +72,14 @@ export const useAuthStore = create<AuthState>()(
       logout: async () => {
         set({ isLoading: true });
         try {
-          await authApi.logout();
-        } catch (error) {
+          const state = get();
+          if (state.user?.userId && state.token) {
+            await authApi.logout({
+              userId: state.user.userId,
+              accessToken: state.token,
+            });
+          }
+        } catch {
           // Continue with logout even if API call fails
         } finally {
           set({
@@ -94,10 +102,11 @@ export const useAuthStore = create<AuthState>()(
             isLoading: false,
             error: null,
           });
-        } catch (error: any) {
+        } catch (error) {
+          const errorMessage = error instanceof Error ? error.message : 'Failed to fetch user';
           set({
             isLoading: false,
-            error: error.message || 'Failed to fetch user',
+            error: errorMessage,
             isAuthenticated: false,
             user: null,
             token: null,

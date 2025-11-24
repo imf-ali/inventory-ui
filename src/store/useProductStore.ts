@@ -29,7 +29,7 @@ interface ProductState {
   clearError: () => void;
 }
 
-export const useProductStore = create<ProductState>((set, get) => ({
+export const useProductStore = create<ProductState>((set) => ({
   products: [],
   selectedProduct: null,
   isLoading: false,
@@ -55,10 +55,11 @@ export const useProductStore = create<ProductState>((set, get) => ({
         },
         isLoading: false,
       });
-    } catch (error: any) {
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Failed to fetch products';
       set({
         isLoading: false,
-        error: error.message || 'Failed to fetch products',
+        error: errorMessage,
       });
     }
   },
@@ -71,10 +72,11 @@ export const useProductStore = create<ProductState>((set, get) => ({
         selectedProduct: product,
         isLoading: false,
       });
-    } catch (error: any) {
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Failed to fetch product';
       set({
         isLoading: false,
-        error: error.message || 'Failed to fetch product',
+        error: errorMessage,
       });
     }
   },
@@ -87,10 +89,11 @@ export const useProductStore = create<ProductState>((set, get) => ({
         products: [newProduct, ...state.products],
         isLoading: false,
       }));
-    } catch (error: any) {
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Failed to create product';
       set({
         isLoading: false,
-        error: error.message || 'Failed to create product',
+        error: errorMessage,
       });
       throw error;
     }
@@ -110,10 +113,11 @@ export const useProductStore = create<ProductState>((set, get) => ({
             : state.selectedProduct,
         isLoading: false,
       }));
-    } catch (error: any) {
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Failed to update product';
       set({
         isLoading: false,
-        error: error.message || 'Failed to update product',
+        error: errorMessage,
       });
       throw error;
     }
@@ -129,10 +133,11 @@ export const useProductStore = create<ProductState>((set, get) => ({
           state.selectedProduct?.id === id ? null : state.selectedProduct,
         isLoading: false,
       }));
-    } catch (error: any) {
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Failed to delete product';
       set({
         isLoading: false,
-        error: error.message || 'Failed to delete product',
+        error: errorMessage,
       });
       throw error;
     }
@@ -152,10 +157,11 @@ export const useProductStore = create<ProductState>((set, get) => ({
         },
         isLoading: false,
       });
-    } catch (error: any) {
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Failed to search products';
       set({
         isLoading: false,
-        error: error.message || 'Failed to search products',
+        error: errorMessage,
       });
     }
   },
@@ -168,10 +174,11 @@ export const useProductStore = create<ProductState>((set, get) => ({
         products,
         isLoading: false,
       });
-    } catch (error: any) {
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Failed to fetch low stock products';
       set({
         isLoading: false,
-        error: error.message || 'Failed to fetch low stock products',
+        error: errorMessage,
       });
     }
   },

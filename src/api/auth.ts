@@ -29,7 +29,6 @@ export const authApi = {
       API_ENDPOINTS.AUTH.SIGNUP,
       data
     );
-    console.log(response);
     if (response.success && response.data.accessToken) {
       apiClient.setToken(response.data.accessToken);
     }
@@ -44,10 +43,11 @@ export const authApi = {
     return response.data;
   },
 
-  logout: async (): Promise<LogoutResponse> => {
+  logout: async (data: LogoutDto): Promise<LogoutResponse> => {
     try {
       const response = await apiClient.post<ApiResponse<LogoutResponse>>(
         API_ENDPOINTS.AUTH.LOGOUT,
+        data
       );
       return response.data;
     } finally {

@@ -1,18 +1,18 @@
 import type { Metadata } from "next";
-//import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono } from "next/font/google";
 import { ThemeProvider } from '@/lib/ThemeProvider';
 import './globals.css';
 
 //need to check later
-// const geistSans = Geist({
-//   variable: "--font-geist-sans",
-//   subsets: ["latin"],
-// });
+const geistSans = Geist({
+  variable: "--font-geist-sans",
+  subsets: ["latin"],
+});
 
-// const geistMono = Geist_Mono({
-//   variable: "--font-geist-mono",
-//   subsets: ["latin"],
-// });
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
+  subsets: ["latin"],
+});
 
 export const metadata: Metadata = {
   title: "InventoryPro - Complete Inventory Management Solution",
@@ -46,8 +46,8 @@ export default function RootLayout({
           }}
         />
       </head>
-      {/* <body className={`${geistSans.variable} ${geistMono.variable}`}> */}
-      <body>
+      <body className={`${geistSans.variable} ${geistMono.variable}`}>
+      {/* <body> */}
         <ThemeProvider>
           {children}
         </ThemeProvider>

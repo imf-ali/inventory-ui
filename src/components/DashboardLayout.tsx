@@ -50,7 +50,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
     try {
       await logout();
       router.push('/login');
-    } catch (error) {
+    } catch {
       // Even if logout fails, clear local state and redirect
       router.push('/login');
     }

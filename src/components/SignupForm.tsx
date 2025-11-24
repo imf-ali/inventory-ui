@@ -52,8 +52,9 @@ export default function SignupForm() {
         role: 'CASHIER', // Default role
       });
       router.push('/onboarding');
-    } catch (err: any) {
-      setLocalError(err.message || 'Signup failed. Please try again.');
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'Signup failed. Please try again.';
+      setLocalError(errorMessage);
     }
   };
 

@@ -52,7 +52,7 @@ export default function OnboardingPage() {
     if (user?.email && !formData.contactEmail) {
       setFormData(prev => ({ ...prev, contactEmail: user.email || '' }));
     }
-  }, [isAuthenticated, user, router]);
+  }, [isAuthenticated, user, router, formData.contactEmail]);
 
   const [formData, setFormData] = useState({
     name: '',
@@ -194,8 +194,9 @@ export default function OnboardingPage() {
       } else {
         throw new Error('Shop registration failed - invalid response');
       }
-    } catch (err: any) {
-      setError(err.message || 'Failed to register shop. Please try again.');
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'Failed to register shop. Please try again.';
+      setError(errorMessage);
       setIsLoading(false);
     }
   };
