@@ -1,51 +1,31 @@
-name: Frontend CI/CD
+name: Frontend DockerHub Image Push
 
 on:
   push:
     branches:
       - main
-  pull_request:
-    branches:
-      - main
   workflow_dispatch:
 
 jobs:
-  # ---------- PR checks: lint + build ----------
-  pr-check:
+  build-and-push-frontend-image:
     runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request'
 
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up Node
+      - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'npm'
+          cache: npm
           cache-dependency-path: package-lock.json
 
       - name: Install dependencies
         run: npm ci
 
-      - name: Lint
-        run: npm run lint --if-present
-
-      - name: Build
+      - name: Build Next.js app
         run: npm run build
-
-  # ---------- Build & push Docker image on main ----------
-  build-and-push:
-    runs-on: ubuntu-latest
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Save commit ID
-        run: git rev-parse HEAD > commit.txt
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
